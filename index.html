@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Bank Exam Quiz</title>
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f6f9;
+    margin:0;
+    padding:20px;
+}
+
+.container{
+    max-width:1000px;
+    margin:auto;
+}
+
+h1{
+    text-align:center;
+}
+
+#timer{
+    position:sticky;
+    top:0;
+    background:#222;
+    color:white;
+    padding:15px;
+    text-align:center;
+    font-size:22px;
+    border-radius:10px;
+    margin-bottom:20px;
+    z-index:100;
+}
+
+.question{
+    background:white;
+    padding:20px;
+    margin-bottom:20px;
+    border-radius:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+    transition:0.3s;
+}
+
+.question h3{
+    margin-bottom:15px;
+}
+
+.option{
+    display:block;
+    padding:12px;
+    margin:10px 0;
+    border:1px solid #ccc;
+    border-radius:8px;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.option:hover{
+    background:#f0f0f0;
+}
+
+.selected{
+    background:#cfe2ff;
+    border:2px solid #0d6efd;
+}
+
+.mark-btn{
+    margin-top:10px;
+    padding:8px 15px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    background:#ff9800;
+    color:white;
+}
+
+.marked{
+    background:#ffcc80 !important;
+}
+
+.review-marked{
+    background:#e0e0e0 !important;
+    border:2px solid #9e9e9e;
+}
+
+.clear-btn{
+    margin-top:10px;
+    margin-left:10px;
+    padding:8px 15px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    background:#dc3545;
+    color:white;
+}
+
+.clear-btn:hover{
+    background:#c82333;
+}
+
+.submit-btn{
+    width:100%;
+    padding:15px;
+    font-size:20px;
+    border:none;
+    border-radius:10px;
+    background:#28a745;
+    color:white;
+    cursor:pointer;
+    margin-top:20px;
+}
+
+.submit-btn:hover{
+    background:#218838;
+}
+
+.result-box{
+    background:white;
+    padding:30px;
+    border-radius:12px;
+    text-align:center;
+    box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+
+.review-btn{
+    padding:12px 20px;
+    margin-top:20px;
+    border:none;
+    border-radius:10px;
+    background:#007bff;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+}
+
+.review-question{
+    background:white;
+    padding:20px;
+    margin:20px 0;
+    border-radius:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+.correct{
+    color:green;
+    font-weight:bold;
+}
+
+.wrong{
+    color:red;
+    font-weight:bold;
+}
+
+.unanswered{
+    color:orange;
+    font-weight:bold;
+}
+
+.correct-answer{
+    background:#d4edda;
+    padding:10px;
+    border-radius:8px;
+    margin-top:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Bank Exam MCQ Quiz</h1>
+
+<div id="timer">Time Left: 15:00</div>
+
+<div id="quiz"></div>
+
+<button class="submit-btn" onclick="submitQuiz()">
+Submit Quiz
+</button>
+
+</div>
+
+<script>
+
+// ===============================
+// QUESTIONS AREA
+// ===============================
+
+const questions = [
+
+
+[
+{q:"President Tô Lâm undertook a three-day official visit to India from May 5–7, 2026 primarily to strengthen bilateral cooperation in defence, trade and which of the following sectors?", options:["Space tourism and cyber warfare","Critical technologies","Rare earth mining","Cryptocurrency regulation"], answer:1},
+
+{q:"During his visit to Mumbai, Vietnam President Tô Lâm visited which major Indian financial institution and participated in the India–Vietnam Business Forum?", options:["Bombay Stock Exchange (BSE)","Reserve Bank of India (RBI)","National Stock Exchange of India Limited (NSE)","Securities and Exchange Board of India (SEBI)"], answer:2},
+
+{q:"India and Vietnam announced a target to expand bilateral trade to what amount by the year 2030 during President Tô Lâm’s visit?", options:["USD 15 billion","USD 20 billion","USD 25 billion","USD 30 billion"], answer:2},
+
+{q:"According to the National Crime Records Bureau (NCRB) report titled “Crime in India 2024”, India recorded approximately how many lakh cognisable crimes during 2024?", options:["48.86 lakh","52.44 lakh","58.86 lakh","62.31 lakh"], answer:2},
+
+{q:"As per NCRB’s “Crime in India 2024” report, the overall crime rate in India declined from 448.3 in 2023 to what level in 2024?", options:["428.4","418.9","409.7","398.2"], answer:1},
+
+{q:"Which city recorded the highest number of suicide cases in 2024 according to the NCRB report “Crime in India 2024”?", options:["Mumbai","Chennai","Bengaluru","Hyderabad"], answer:2},
+
+{q:"The Ministry of Statistics and Programme Implementation (MoS&PI) updated the base year for National Accounts and Gross State Domestic Product (GSDP) calculations to:", options:["2017–18","2019–20","2021–22","2022–23"], answer:3},
+
+{q:"The National Statistics Office (NSO) issued uniform guidelines for compiling Gross State Value Added (GSVA) mainly to ensure:", options:["International currency harmonisation","Standardised framework and comparability","Reduction in GST rates","Expansion of digital census operations"], answer:1},
+
+{q:"Which among the following Union Territories does NOT currently compile Gross State Domestic Product (GSDP) as per the updated MoS&PI guidelines?", options:["Puducherry","Jammu & Kashmir","Lakshadweep","Delhi"], answer:2},
+
+{q:"NITI Aayog released a policy report titled “School Education System in India: Temporal Analysis and Policy Roadmap for Quality Enhancement” under the leadership of Suman K. Bery and:", options:["Amitabh Kant","BVR Subrahmanyam","Nidhi Chhibber","Rajiv Kumar"], answer:2},
+
+{q:"According to the NITI Aayog report on school education, which state achieved a 0% primary school dropout rate during 2024–25?", options:["Kerala","Tamil Nadu","Himachal Pradesh","Jharkhand"], answer:3},
+
+{q:"Which state recorded the highest number of high-enrolment schools in the NITI Aayog report on India’s school education system?", options:["Telangana","Punjab","West Bengal","Uttar Pradesh"], answer:2},
+
+{q:"Maritime India Foundation (MIF) signed Memoranda of Understanding (MoUs) with IIT Madras, IIT Bombay and Indian Maritime University (IMU) to establish:", options:["National Shipping Corridors","Maritime Innovation Hubs","Blue Economy Data Centres","Deep Sea Mining Institutes"], answer:1},
+
+{q:"The agreements signed by Maritime India Foundation (MIF) with IITs and IMU were aimed at promoting which flagship national vision?", options:["Startup India","Digital India","Atmanirbhar Bharat","Skill India"], answer:2},
+
+{q:"The Office of the Principal Scientific Adviser (PSA) to the Government of India signed an MoU with which organisation to strengthen India’s Research & Development (R&D) ecosystem?", options:["ASSOCHAM","CII","FICCI","NASSCOM"], answer:2},
+
+{q:"The MoU between PSA and FICCI to foster the R&D ecosystem was signed at which location in New Delhi?", options:["Vigyan Bhavan","Kartavya Bhavan","Rashtrapati Bhavan","Sushma Swaraj Bhavan"], answer:1},
+
+{q:"European missile manufacturer MBDA signed an agreement with the Indian Air Force (IAF) to establish MRO capability in India for which missile system?", options:["Astra","BrahMos","MICA","Akash"], answer:2},
+
+{q:"The MICA missile, for which MBDA and IAF signed an MRO agreement, is mainly classified as a:", options:["Surface-to-surface missile","Ballistic missile","Air-to-air missile","Anti-submarine missile"], answer:2},
+
+{q:"Defence Research and Development Organisation (DRDO) inaugurated a Chemical, Biological, Radiological and Nuclear (CBRN) Field Training and Demonstration Centre at:", options:["Pune","Burari plains, New Delhi","Hyderabad","Chandipur, Odisha"], answer:1},
+
+{q:"The CBRN Field Training and Demonstration Centre inaugurated by DRDO is mainly intended to strengthen preparedness against:", options:["Cyber warfare threats","Maritime piracy","Radiological and nuclear emergencies","Financial terrorism"], answer:2},
+
+{q:"O.P. Jindal Global University (JGU) became India’s first Institute of Eminence (IoE) to receive accreditation from which organisation?", options:["ISO","QS World Rankings","Data Science Council of America (DASCA)","AACSB"], answer:2},
+
+{q:"JGU received the DASCA accreditation under which initiative?", options:["National AI Mission","World Data Sciences & AI Initiative (WDSAI)","Digital Knowledge Partnership Programme","Global Innovation Education Framework"], answer:1},
+
+{q:"The Government of India appointed Shashi Shekhar Vempati as the Chairperson of which organisation for a tenure of three years?", options:["Press Council of India (PCI)","Central Board of Film Certification (CBFC)","Prasar Bharati (PB)","National Film Development Corporation (NFDC)"], answer:1},
+
+{q:"Shashi Shekhar Vempati succeeded whom as the Chairperson of the Central Board of Film Certification (CBFC)?", options:["Vivek Agnihotri","Ashoke Pandit","Prasoon Joshi","Shekhar Kapur"], answer:2},
+
+{q:"FICCI nominated Priyanka Mittal as the Co-Chair of which bilateral business council?", options:["India-UAE Business Council","Indo-US CEO Forum","Saudi-India Business Council (SIBC)","India-Africa Trade Council"], answer:2},
+
+{q:"Kotak Mahindra Bank Limited (KMBL) received RBI approval to acquire up to 9.99% stake in AU Small Finance Bank and which other bank?", options:["South Indian Bank","Federal Bank","City Union Bank","Karnataka Bank"], answer:1},
+
+{q:"The RBI approval granted to KMBL for stake acquisition complied with the ownership cap prescribed under which Act?", options:["Companies Act, 2013","RBI Act, 1934","Banking Regulation Act, 1949","FEMA, 1999"], answer:2},
+
+{q:"DRDO and the Indian Air Force (IAF) successfully conducted the maiden flight trial of which indigenous glide weapon system off the Odisha coast?", options:["Rudram","Pralay","TARA","SMART"], answer:2},
+
+{q:"The Tactical Advanced Range Augmentation (TARA) system developed by DRDO can convert conventional bombs into:", options:["Ballistic interceptors","Guided munitions","Anti-radiation missiles","Cruise missile boosters"], answer:1},
+
+{q:"The indigenous TARA glide weapon system was developed by which DRDO laboratory located in Hyderabad?", options:["DRDL","ADE","ARDE","Research Centre Imarat (RCI)"], answer:3},
+
+{q:"Pixxel secured a contract from which United States agency for hyperspectral remote sensing development?", options:["NASA","DARPA","National Reconnaissance Office (NRO)","Space Force Command"], answer:2},
+
+{q:"The contract awarded to Pixxel was under which programme of the National Reconnaissance Office (NRO)?", options:["Artemis Commercial Programme","Strategic Commercial Enhancements Commercial Solutions Opening (CSO)","Advanced Orbital Imaging Initiative","Space Innovation Partnership Framework"], answer:1},
+
+{q:"Former Indian midfielder Mohan Singh, who recently passed away, was associated with which sport?", options:["Hockey","Athletics","Football","Cricket"], answer:2},
+
+{q:"Mohan Singh won the Durand Cup in which year according to his major sporting achievements?", options:["1968","1970","1972","1978"], answer:2},
+
+{q:"Border Roads Organisation (BRO) celebrated its 66th Raising Day on May 7, 2026. BRO was originally established in:", options:["1956","1958","1960","1962"], answer:2},
+
+{q:"World Athletics Day, observed annually on May 7, was first celebrated in:", options:["1992","1994","1996","1998"], answer:2},
+
+{q:"The launch theme of World Athletics Day was:", options:["Run for Humanity","Athletics for a Better World","Fitness Beyond Borders","Sports for Sustainable Future"], answer:1},
+
+{q:"World Red Cross and Red Crescent Day is observed every year on May 8 to mark the birth anniversary of:", options:["Florence Nightingale","Jean Henry Dunant","Louis Pasteur","Albert Schweitzer"], answer:1},
+
+{q:"The 2026 theme of World Red Cross and Red Crescent Day was:", options:["Humanity Above All","Together for Peace","United in Humanity","Service Beyond Borders"], answer:2},
+
+{q:"World Red Cross and Red Crescent Day was first officially observed in which year?", options:["1945","1948","1952","1960"], answer:1}
+];
+
+// ===============================
+// VARIABLES
+// ===============================
+
+let userAnswers = new Array(questions.length).fill(null);
+
+let markedForReview = new Array(questions.length).fill(false);
+
+let submitted = false;
+
+// ===============================
+// LOAD QUIZ
+// ===============================
+
+function loadQuiz(){
+
+    const quizDiv = document.getElementById("quiz");
+
+    questions.forEach((question,index)=>{
+
+        const qDiv = document.createElement("div");
+
+        qDiv.classList.add("question");
+
+        qDiv.id = `question_${index}`;
+
+        qDiv.innerHTML = `
+        <h3>Q${index+1}. ${question.q}</h3>
+        `;
+
+        question.options.forEach((option,optIndex)=>{
+
+            const opt = document.createElement("div");
+
+            opt.classList.add("option");
+
+            opt.innerText = option;
+
+            opt.onclick = ()=>selectOption(index,optIndex,opt);
+
+            opt.id = `q${index}_opt${optIndex}`;
+
+            qDiv.appendChild(opt);
+
+        });
+
+        // Mark Button
+
+        const markBtn = document.createElement("button");
+
+        markBtn.innerText = "Mark For Review";
+
+        markBtn.classList.add("mark-btn");
+
+        markBtn.onclick = ()=>toggleMark(index,markBtn);
+
+        qDiv.appendChild(markBtn);
+
+        // Clear Button
+
+        const clearBtn = document.createElement("button");
+
+        clearBtn.innerText = "Clear";
+
+        clearBtn.classList.add("clear-btn");
+
+        clearBtn.onclick = ()=>clearAnswer(index);
+
+        qDiv.appendChild(clearBtn);
+
+        quizDiv.appendChild(qDiv);
+
+    });
+
+}
+
+// ===============================
+// SELECT OPTION
+// ===============================
+
+function selectOption(qIndex,optIndex,element){
+
+    if(submitted) return;
+
+    userAnswers[qIndex] = optIndex;
+
+    const options = document.querySelectorAll(`[id^="q${qIndex}_opt"]`);
+
+    options.forEach(opt=>{
+        opt.classList.remove("selected");
+    });
+
+    element.classList.add("selected");
+
+}
+
+// ===============================
+// MARK FOR REVIEW
+// ===============================
+
+function toggleMark(index,button){
+
+    markedForReview[index] = !markedForReview[index];
+
+    const questionBox = document.getElementById(`question_${index}`);
+
+    if(markedForReview[index]){
+
+        button.classList.add("marked");
+
+        button.innerText = "Marked For Review";
+
+        questionBox.classList.add("review-marked");
+
+    }else{
+
+        button.classList.remove("marked");
+
+        button.innerText = "Mark For Review";
+
+        questionBox.classList.remove("review-marked");
+
+    }
+
+}
+
+// ===============================
+// CLEAR ANSWER
+// ===============================
+
+function clearAnswer(index){
+
+    if(submitted) return;
+
+    userAnswers[index] = null;
+
+    const options = document.querySelectorAll(`[id^="q${index}_opt"]`);
+
+    options.forEach(opt=>{
+        opt.classList.remove("selected");
+    });
+
+}
+
+// ===============================
+// SUBMIT QUIZ
+// ===============================
+
+function submitQuiz(){
+
+    if(submitted) return;
+
+    submitted = true;
+
+    clearInterval(timer);
+
+    let score = 0;
+
+    let correctCount = 0;
+    let wrongCount = 0;
+    let unansweredCount = 0;
+
+    questions.forEach((question,index)=>{
+
+        const userAns = userAnswers[index];
+
+        if(userAns === null){
+
+            unansweredCount++;
+
+        }
+        else if(userAns === question.answer){
+
+            score += 1;
+            correctCount++;
+
+        }
+        else{
+
+            score -= 0.25;
+            wrongCount++;
+
+        }
+
+    });
+
+    let attempted = correctCount + wrongCount;
+
+    let accuracy = attempted > 0
+    ? ((correctCount/attempted)*100).toFixed(2)
+    : 0;
+
+    document.body.innerHTML = `
+
+    <div class="container">
+
+        <div class="result-box">
+
+            <h1>Quiz Submitted ✅</h1>
+
+            <h2>Total Score: ${score.toFixed(2)}</h2>
+
+            <h3>Correct Answers: ${correctCount}</h3>
+
+            <h3>Wrong Answers: ${wrongCount}</h3>
+
+            <h3>Unanswered Questions: ${unansweredCount}</h3>
+
+            <h3>Accuracy: ${accuracy}%</h3>
+
+            <button class="review-btn" onclick="reviewAnswers()">
+            Review Answers
+            </button>
+
+            <div id="reviewSection"></div>
+
+        </div>
+
+    </div>
+
+    `;
+
+}
+
+// ===============================
+// REVIEW ANSWERS
+// ===============================
+
+function reviewAnswers(){
+
+    const reviewSection = document.getElementById("reviewSection");
+
+    let html = `<h1 style="margin-top:40px;">Review Section</h1>`;
+
+    questions.forEach((question,index)=>{
+
+        const userAns = userAnswers[index];
+
+        let status = "";
+        let marks = "";
+
+        if(userAns === null){
+
+            status = `<span class="unanswered">Unanswered</span>`;
+            marks = `0 Marks`;
+
+        }
+        else if(userAns === question.answer){
+
+            status = `<span class="correct">Correct ✅</span>`;
+            marks = `+1 Mark`;
+
+        }
+        else{
+
+            status = `<span class="wrong">Wrong ❌</span>`;
+            marks = `-0.25 Mark`;
+
+        }
+
+        html += `
+
+        <div class="review-question">
+
+            <h3>Q${index+1}. ${question.q}</h3>
+
+            <p>${status}</p>
+
+            <p><b>Marks:</b> ${marks}</p>
+
+            <p>
+            <b>Your Answer:</b>
+            ${
+                userAns === null
+                ? "Not Attempted"
+                : question.options[userAns]
+            }
+            </p>
+
+            <div class="correct-answer">
+            <b>Correct Answer:</b>
+            ${question.options[question.answer]}
+            </div>
+
+        </div>
+
+        `;
+
+    });
+
+    reviewSection.innerHTML = html;
+
+}
+
+// ===============================
+// TIMER
+// ===============================
+
+let time = 900;
+
+const timer = setInterval(()=>{
+
+    let minutes = Math.floor(time/60);
+
+    let seconds = time%60;
+
+    document.getElementById("timer").innerText =
+    `Time Left: ${minutes}:${seconds<10 ? '0'+seconds : seconds}`;
+
+    time--;
+
+    if(time < 0){
+
+        clearInterval(timer);
+
+        alert("Time is up! Quiz auto-submitted.");
+
+        submitQuiz();
+
+    }
+
+},1000);
+
+// ===============================
+
+loadQuiz();
+
+</script>
+
+</body>
+</html>
